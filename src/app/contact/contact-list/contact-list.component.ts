@@ -1,9 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Activity } from 'src/app/models/activity.model';
 import { Contact } from 'src/app/models/contact.model';
-//import { ActivityService } from 'src/app/services/activity.service';
+import { ActivityService } from 'src/app/services/activity.service';
 import { ContactService } from 'src/app/services/contact.service';
+import { CustomDateParserFormatter } from 'src/app/services/dateformat.service';
 import swal from 'sweetalert';
 
 
@@ -15,9 +18,26 @@ import swal from 'sweetalert';
 })
 export class ContactListComponent implements OnInit {
 
-  constructor(private contactService: ContactService,
-  ) { }
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  model: NgbDateStruct;
 
+  constructor(private contactService: ContactService,
+              private activityService: ActivityService,
+              private dateFormatter: CustomDateParserFormatter
+  ) { 
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+  }
+  public activities: Activity[]
   public contacts: Contact[]
   public selectedContact: Contact;
 
@@ -33,6 +53,7 @@ export class ContactListComponent implements OnInit {
     this.contactService.getAllContacts().subscribe(
       (response: Contact[]) => {
         this.contacts = response;
+        this.dropdownList = this.contacts.map(item => ({ item_id: item.id, item_text: item.firstName + " " + item.lastName }))
       },
       (error: HttpErrorResponse) => {
         swal("Oops!", "Fetching Contact list went wrong ! ", "error");
@@ -49,6 +70,32 @@ export class ContactListComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.log(error.message);
         swal("Oops!", "Make sure you entered a valid Email and Phone number!", "error");
+      },
+    );
+  }
+
+  public getAllActivities(): void {
+    this.activityService.getAllActivities().subscribe(
+      (response: Activity[]) => {
+        this.activities = response;
+      },
+    )
+  }
+
+  public addNewActivity(addActivityForm: NgForm): void {
+    const participants=[];
+    if(this.selectedItems.length>0){
+      this.selectedItems.map(contact=>participants.push(contact))
+    }    
+    const { date } = addActivityForm.value;
+    const activity = { ...addActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
+    console.log(activity);
+    this.activityService.addNewActivity(activity).subscribe(
+      (response: Activity) => {
+        this.getAllActivities();
+      },
+      (error: HttpErrorResponse) => {
+        swal("Oops!", "Looks like something went wrong while adding a new activity! Try again.. ", "error");
       },
     );
   }

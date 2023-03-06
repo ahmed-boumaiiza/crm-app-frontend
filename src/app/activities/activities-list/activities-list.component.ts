@@ -24,9 +24,7 @@ export class ActivitiesListComponent implements OnInit {
   model: NgbDateStruct;
   selectedActivity: Activity;
 
-
-
-  public activities: Activity[]
+  activities: Activity[]
   contactsList: Contact[];
 
   searchText: string;
@@ -45,10 +43,6 @@ export class ActivitiesListComponent implements OnInit {
   constructor(private activityService: ActivityService,
     private contactService: ContactService
     , private dateFormatter: CustomDateParserFormatter) {
-    // this.dropdownList = [
-    //   { item_id: 1, item_text: 'Option 1' },
-    //   { item_id: 2, item_text: 'Option 2' },
-    // ];
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -79,34 +73,21 @@ export class ActivitiesListComponent implements OnInit {
   }
 
   public addNewActivity(addActivityForm: NgForm): void {
-    // const participants=[];
-    // if(this.selectedItems.length>0){
-    //   this.selectedItems.map(contact=>participants.push(contact.item_id))
-    // }    
+    const participants=[];
+    if(this.selectedItems.length>0){
+      this.selectedItems.map(contact=>participants.push(contact))
+    }    
     const { date } = addActivityForm.value;
-    const activity = { ...addActivityForm.value, "participants": this.contactsList, "date": this.dateFormatter.format(date) }
+    const activity = { ...addActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
     console.log(activity);
     this.activityService.addNewActivity(activity).subscribe(
       (response: Activity) => {
-        // console.log(response);
         this.getAllActivities();
       },
       (error: HttpErrorResponse) => {
         swal("Oops!", "Looks like something went wrong while adding a new activity! Try again.. ", "error");
       },
     );
-    // const activity={...addActivityForm.value,"participants":this.contactsList}
-
-    // console.log(activity);
-    // this.activityService.addNewActivity(activity).subscribe(
-    //   (response: Activity) => {
-    //     // console.log(response);
-    //     this.getAllActivities();
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     swal("Oops!", "Looks like something went wrong while adding a new activity! Try again.. ", "error");
-    //   },
-    // );
   }
 
   public editActivity(activity: Activity, editActivityForm: NgForm): void {
