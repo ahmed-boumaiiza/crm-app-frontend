@@ -18,8 +18,8 @@ export class ActivityService {
   }
 
   
-  public addNewActivity(activity: Activity): Observable<any>{
-    return this.http.post<any>(`${this.apiServerUrl}/activity/create`,activity)
+  public addNewActivity(activity: Activity): Observable<Activity>{
+    return this.http.post<Activity>(`${this.apiServerUrl}/activity/create`,activity)
   }
 
 

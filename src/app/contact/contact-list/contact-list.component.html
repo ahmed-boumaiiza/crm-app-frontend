@@ -6,28 +6,8 @@
       </div>
     </nav>
     <div class="input-group mb-3">
-      <input type="text" class="form-control me-5" name="search" [(ngModel)]="searchText" autocomplete="off"
-        placeholder=" Search" />
-      <!-- <div class="input-group-append">
-        <button class="btn btn-outline-secondary me-1" type="button">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary me-1" type="button">
-          <i class="fas fa-download"></i>
-        </button>
-      </div>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary me-1" type="button">
-          <i class="fas fa-upload"></i>
-        </button>
-      </div>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">
-          <i class="fas fa-filter"></i> Filter
-        </button>
-      </div> -->
+      <input type="text" class="form-control me-5" name="search" [(ngModel)]="searchText" (ngModelChange)="search()"  autocomplete="off"
+        placeholder="Enter First Name or Last Name to search" />
     </div>
     <div class="table-title mt-2">
       <div class="row">
@@ -50,8 +30,8 @@
       <thead class="bg-info">
         <tr>
           <th></th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
+          <th (click)="sort('firstName')" scope="col">First Name<span><i class="fa fa-sort"></i></span> </th>
+          <th (click)="sort('lastName')" scope="col">Last Name<i class="fa fa-sort"></i> </th>
           <th scope="col">Company</th>
           <th scope="col">Job</th>
           <th scope="col">Email</th>
@@ -61,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let contact of contacts | filter : searchText;">
+        <tr *ngFor="let contact of contacts | filter : searchText | orderBy: key: reverse | paginate:{itemsPerPage:5,currentPage:p};">
           <td>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="star{{ contact.id }}" />
@@ -85,20 +65,7 @@
         </tr>
       </tbody>
     </table>
-
-    <div class="clearfix">
-      <ul class="pagination" style="justify-content: center">
-        <li class="page-item"><a class="page-link">&#xab;</a></li>
-        <li class="page-item"><a class="page-link">&#x2039;</a></li>
-        <li class="page-item active"><a class="page-link">1</a></li>
-        <li class="page-item"><a class="page-link">2</a></li>
-        <li class="page-item"><a class="page-link">3</a></li>
-        <li class="page-item"><a class="page-link">4</a></li>
-        <li class="page-item"><a class="page-link">5</a></li>
-        <li class="page-item"><a class="page-link">&#x203A;</a></li>
-        <li class="page-item"><a class="page-link">&#xbb;</a></li>
-      </ul>
-    </div>
+    <pagination-controls  (pageChange) = "p = $event"></pagination-controls>
   </div>
 </div>
 
@@ -116,7 +83,7 @@
       <div class="modal-body justify-content">
         <div class="container mt-2">
           <div class="row">
-            <div class="col-md-2 " style="height: 600px; border-right: solid;">
+            <div class="col-md-2 " style="border-right: solid;">
               <div>
                 <button class="btn btn-outline-secondary me-1 mb-1" type="button">
                   <i class="fa-regular fa-user"></i> Profile
@@ -128,7 +95,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-md-4" style="height: 600px;">
+            <div class="col-md-4">
               <div>
                 <img src="https://www.pngmart.com/files/22/User-Avatar-Profile-Transparent-Background.png"
                   alt="profile picture" width="200" height="200" style="margin-left: 8px; margin-bottom: 2px;" />
@@ -137,7 +104,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-md-6" style="height: 600px; ">
+            <div class="col-md-6">
               <form #addcontactForm="ngForm" class="row g-3">
                 <fieldset class="mb-1">
                   <legend>Main Informations</legend>
@@ -147,23 +114,24 @@
                       <input type="text" class="form-control" name="firstName" #firstName="ngModel" minlength="3"
                         required id="firstName" ngModel />
                     </div>
-                    <span *ngIf="firstName.invalid && firstName.touched" class="error">You must enter firstname</span>
+                    <span *ngIf="firstName.invalid && firstName.touched" class="error">Required Field !</span>
 
                     <div class="col-md-6">
                       <label for="lastName" class="form-label">Last Name<span style="color: red">*</span></label>
-                      <input type="text" class="form-control" name="lastName" minlength="3" required id="lastName"
+                      <input type="text" class="form-control" #lastName="ngModel" name="lastName" minlength="3" required id="lastName"
                         ngModel />
                     </div>
+                    <span *ngIf="lastName.invalid && lastName.touched" class="error">Required Field !</span>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
                       <label for="email" class="form-label">Email</label>
-                      <input type="email" placeholder="example@email.com" class="form-control" name="email" id="email"
+                      <input type="email" class="form-control" name="email" id="email"
                         ngModel required email />
                     </div>
                     <div class="col-md-6">
                       <label for="phone" class="form-label">Phone</label>
-                      <input type="tel" placeholder="Format : +216 98766366" class="form-control" name="phone"
+                      <input type="tel" required class="form-control" name="phone"
                         id="phone" ngModel tel />
                     </div>
                   </div>
@@ -194,7 +162,7 @@
               </form>
 
               <form class="row g-3">
-                <fieldset>
+                <fieldset >
                   <legend>Address</legend>
                   <div class="col-12">
                     <label for="address" class="form-label">Address</label>
@@ -210,7 +178,7 @@
                       <input type="text" class="form-control" name="zipCode" id="zipCode" ngModel />
                     </div>
                   </div>
-                  <div class="row mb-1">
+                  <div class="row mb-2">
                     <div class="col-md-6">
                       <label for="city" class="form-label">City</label>
                       <input type="text" class="form-control" name="city" id="city" ngModel />
@@ -225,14 +193,14 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer mt-2">
           <div class="col-md-4 offset-2 p-0 ">
             <button type="button" disabled class="btn btn-warning">
               Send Email
             </button>
           </div>
           <div class="col-md-6" style="display: inline-flex;justify-content: end;">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
               Close
             </button>
             <button type="submit" [disabled]="addcontactForm.invalid" (click)="addNewContact(addcontactForm)"
@@ -286,22 +254,22 @@
                 <div class="col-md-6">
                   <label for="firstName" class="form-label">First Name<span style="color: red">*</span></label>
                   <input type="text" required class="form-control" name="firstName" id="firstName"
-                    ngModel={{selectedContact?.firstName}} />
+                    ngModel={{selectedContact?.firstName}} required minlength="3" />
                 </div>
                 <div class="col-md-6">
                   <label for="lastName" class="form-label">Last Name<span style="color: red">*</span></label>
                   <input type="text" required class="form-control" name="lastName" id="lastName"
-                    ngModel={{selectedContact?.lastName}} />
+                    ngModel={{selectedContact?.lastName}} required minlength="3" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" ngModel={{selectedContact?.email}} />
+                  <input type="email" class="form-control" name="email" id="email" required email ngModel={{selectedContact?.email}} />
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Phone</label>
-                  <input type="text" class="form-control" name="phone" id="phone" ngModel={{selectedContact?.phone}} />
+                  <input type="tel" class="form-control" name="phone" id="phone" tel ngModel={{selectedContact?.phone}} />
                 </div>
               </div>
               <div class="row">
@@ -367,7 +335,7 @@
                 <label for="date" class="form-label">Date<span style="color: red">*</span></label>
                 <div class="input-group">
                   <input class="form-control" placeholder="dd/mm/yyyy" name="date" #c2="ngModel" [(ngModel)]="model2"
-                    ngbDatepicker #date="ngbDatepicker" />
+                    ngbDatepicker #date="ngbDatepicker" required/>
                   <button class="btn btn-outline-secondary far fa-calendar-alt" (click)="date.toggle()"
                     type="button"></button>
                 </div>
@@ -416,8 +384,8 @@
             <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">
               Cancel
             </button>
-            <button data-bs-dismiss="modal" type="submit" class="btn btn-warning">
-              Save
+            <button data-bs-dismiss="modal" [disabled]="newActivityForm.invalid" type="submit" class="btn btn-warning">
+              Save Activity
             </button>
           </div>
         </form>

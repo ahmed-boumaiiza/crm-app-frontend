@@ -228,3 +228,9 @@ fieldset{
 		border-color: black;
 
 }
+
+pagination-controls{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }

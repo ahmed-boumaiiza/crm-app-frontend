@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbAlertModule, NgbDateParserFormatter, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDateParserFormatter } from './services/dateformat.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 
 
@@ -33,7 +35,8 @@ import { CustomDateParserFormatter } from './services/dateformat.service';
     BrowserAnimationsModule,
     HttpClientModule,
     NgMultiSelectDropDownModule,
-    NgbDatepickerModule, NgbAlertModule
+    NgbDatepickerModule, NgbAlertModule,
+    NgxPaginationModule,Ng2OrderModule
   ],
   providers: [		{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
   ],

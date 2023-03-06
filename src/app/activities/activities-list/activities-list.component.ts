@@ -17,17 +17,15 @@ import { CustomDateParserFormatter } from 'src/app/services/dateformat.service';
   styleUrls: ['./activities-list.component.css']
 })
 export class ActivitiesListComponent implements OnInit {
-
+  
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
   model: NgbDateStruct;
   selectedActivity: Activity;
-
   activities: Activity[]
   contactsList: Contact[];
-
-  searchText: string;
+  p: number = 1;
 
   ngOnInit() {
     this.getAllActivities();
@@ -73,13 +71,12 @@ export class ActivitiesListComponent implements OnInit {
   }
 
   public addNewActivity(addActivityForm: NgForm): void {
-    const participants=[];
+     const participants =[];
     if(this.selectedItems.length>0){
-      this.selectedItems.map(contact=>participants.push(contact))
+      this.selectedItems.map(contact=>participants.push({id: contact['item_id']}));
     }    
     const { date } = addActivityForm.value;
     const activity = { ...addActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
-    console.log(activity);
     this.activityService.addNewActivity(activity).subscribe(
       (response: Activity) => {
         this.getAllActivities();
@@ -90,8 +87,14 @@ export class ActivitiesListComponent implements OnInit {
     );
   }
 
-  public editActivity(activity: Activity, editActivityForm: NgForm): void {
-    this.activityService.editActivity(activity.id, editActivityForm.value).subscribe(
+  public editActivity(oldactivity: Activity, editActivityForm: NgForm): void {
+    const participants =[];
+    if(this.selectedItems.length>0){
+      this.selectedItems.map(contact=>participants.push({id: contact['item_id']}));
+    }    
+    const { date } = editActivityForm.value;
+    const newactivity = { ...editActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
+    this.activityService.editActivity(oldactivity.id, newactivity).subscribe(
       (response: Activity) => {
         this.getAllActivities();
       },
@@ -122,9 +125,6 @@ export class ActivitiesListComponent implements OnInit {
       );
     }
   }
-
-
-
 }
 
 

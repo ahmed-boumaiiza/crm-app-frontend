@@ -224,7 +224,7 @@ table.table .avatar {
 fieldset{
 	border:solid;
 	border-radius: 8px;
-	border-color: orange;
+	border-color: black;
 }
 
 input.ng-invalid{
@@ -237,4 +237,9 @@ input.ng-invalid{
 
   .error{
 	color: red;
+  }
+  pagination-controls{
+	display: flex;
+	justify-content: center;
+	align-items: center;
   }

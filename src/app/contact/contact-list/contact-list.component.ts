@@ -85,7 +85,7 @@ export class ContactListComponent implements OnInit {
   public addNewActivity(addActivityForm: NgForm): void {
     const participants=[];
     if(this.selectedItems.length>0){
-      this.selectedItems.map(contact=>participants.push(contact))
+      this.selectedItems.forEach(contact=>participants.push({id: contact['item_id']}))
     }    
     const { date } = addActivityForm.value;
     const activity = { ...addActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
@@ -132,4 +132,26 @@ export class ContactListComponent implements OnInit {
       );
     }
   }
+  searchText:any;
+  p: number = 1;
+  key :string = "id";
+  reverse: boolean = false;
+
+  search(){
+    if (this.searchText ==""){
+      this.ngOnInit();
+    } else {
+      this.contacts = this.contacts.filter(res => {
+        return res.firstName.toLocaleLowerCase().match(this.searchText.toLocaleLowerCase()) || 
+        res.lastName.toLocaleLowerCase().match(this.searchText.toLocaleLowerCase());
+      });
+    }
+
+  }
+
+  sort(key){
+    this.key = key
+    this.reverse = !this.reverse;
+  }
+
 }
