@@ -1,0 +1,53 @@
+<!-- Style 1-->
+<!-- <div>
+  <button class="crmButton" (dblclick)="ondblclick()" routerLink="/home" routerLinkActive="router-link-active">CRM</button>
+</div>
+<div>
+  <button class="contactButton" routerLink="/contact-list">Contacts</button>
+</div>
+<div>
+  <button class="activitiesButton" routerLink="/activities-list">Activities</button>
+</div> -->
+
+
+<!-- Style 2-->
+<!-- <div class="dropdown">
+  <button class="btn btn-warning dropdown-toggle col-md-2" type="button" (dblclick)="ondblclick()"  id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    CRM
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark col-md-1" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" routerLink="/contact-list">Contacts</a></li>
+    <li><a class="dropdown-item" routerLink="/activities-list">Activities</a></li>
+    
+  </ul>
+</div> -->
+
+<!-- Style 1-->
+
+
+<header class="navbar navbar-dark col-md-3 col-lg-2 me-0 px-3 sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a type="button" class="navbar-brand col-md-3 col-lg-2 me-0 px-3" (dblclick)="ondblclick()">CRM Application</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</header>
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+  <div class="position-sticky pt-3">
+    <ul class="nav flex-column">
+      
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contact-list">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Contacts
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/activities-list">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          Activities
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+

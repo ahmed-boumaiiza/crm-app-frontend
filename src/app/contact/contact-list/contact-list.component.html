@@ -1,0 +1,444 @@
+<div class="table-wrapper" id="container-button">
+  <div class="container-xl">
+    <nav class="navbar bg-body-tertiary">
+      <div class="col-sm-6" style="color: rgb(3, 185, 185); font-family: fantasy">
+        <h1>Contacts</h1>
+      </div>
+    </nav>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control me-5" name="search" [(ngModel)]="searchText" autocomplete="off"
+        placeholder=" Search" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary me-1" type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary me-1" type="button">
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary me-1" type="button">
+          <i class="fas fa-upload"></i>
+        </button>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+      </div>
+    </div>
+    <div class="table-title mt-2">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>• Contacts list</h2>
+        </div>
+        <div class="col-sm-6">
+          <!-- <a class="btn btn-add rounded" (click)="onOpenModal(null,'addC')">
+            <span>Add Contact</span></a> -->
+          <!-- <a class="btn btn-add rounded" (click)="onOpenModal(null,'addA')">
+            <span>Add Activities</span></a> -->
+          <a type="button" class="btn btn-add rounded" data-bs-toggle="modal" data-bs-target="#addNewContactModal">
+            <span>Add Contact</span></a>
+          <a class="btn btn-add rounded" data-bs-toggle="modal" data-bs-target="#addActivityModal">
+            <span>Add Activities</span></a>
+          <a class="btn rounded btn-primary" routerLink="/home">
+            <span>Home Page</span></a>
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead class="bg-info">
+        <tr>
+          <th></th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Company</th>
+          <th scope="col">Job</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Contact Owner</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts | filter : searchText;">
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="star{{ contact.id }}" />
+              <label class="form-check-label" for="star{{ contact.id }}">
+                <i class="far fa-star"></i>
+              </label>
+            </div>
+          </td>
+          <td>{{ contact.firstName }}</td>
+          <td>{{ contact.lastName }}</td>
+          <td>{{ contact.company }}</td>
+          <td>{{ contact.job }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.phone }}</td>
+          <td>{{ contact.contactOwner }}</td>
+          <td>
+            <i type="button" class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#EditContactModal"
+              (click)="selectedContact = contact"></i>
+            <!-- <i type="button" class="fas fa-edit" (click)="onOpenModal(contact,'editC')"></i> -->
+            <i type="button" class="fas fa-trash-alt" (click)="deleteContact(contact.id)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="clearfix">
+      <ul class="pagination" style="justify-content: center">
+        <li class="page-item"><a class="page-link">&#xab;</a></li>
+        <li class="page-item"><a class="page-link">&#x2039;</a></li>
+        <li class="page-item active"><a class="page-link">1</a></li>
+        <li class="page-item"><a class="page-link">2</a></li>
+        <li class="page-item"><a class="page-link">3</a></li>
+        <li class="page-item"><a class="page-link">4</a></li>
+        <li class="page-item"><a class="page-link">5</a></li>
+        <li class="page-item"><a class="page-link">&#x203A;</a></li>
+        <li class="page-item"><a class="page-link">&#xbb;</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Add new Contact Modal -->
+<div class="modal fade" id="addNewContactModal" tabindex="-1" aria-labelledby="addNewContactModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addNewContactModalLabel">
+          Add New Contact
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body justify-content">
+        <div class="container mt-2">
+          <div class="row">
+            <div class="col-md-2 " style="height: 600px; border-right: solid;">
+              <div>
+                <button class="btn btn-outline-secondary me-1 mb-1" type="button">
+                  <i class="fa-regular fa-user"></i> Profile
+                </button>
+              </div>
+              <div>
+                <button class="btn btn-outline-secondary me-1" type="button">
+                  <i class="fa-solid fa-calendar-days"></i> Activities
+                </button>
+              </div>
+            </div>
+            <div class="col-md-4" style="height: 600px;">
+              <div>
+                <img src="https://www.pngmart.com/files/22/User-Avatar-Profile-Transparent-Background.png"
+                  alt="profile picture" width="200" height="200" style="margin-left: 8px; margin-bottom: 2px;" />
+                <button class="btn btn-outline-secondary" style="width: 220px" type="button">
+                  <input type="file" />
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6" style="height: 600px; ">
+              <form #addcontactForm="ngForm" class="row g-3">
+                <fieldset class="mb-1">
+                  <legend>Main Informations</legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="firstName" class="form-label">First Name<span style="color: red">*</span></label>
+                      <input type="text" class="form-control" name="firstName" #firstName="ngModel" minlength="3" required
+                        id="firstName" ngModel />
+                    </div>
+                    <span *ngIf="firstName.invalid && firstName.touched" class="error">You must enter firstname</span>
+
+                    <div class="col-md-6">
+                      <label for="lastName" class="form-label">Last Name<span style="color: red">*</span></label>
+                      <input type="text" class="form-control" name="lastName" minlength="3" required
+                        id="lastName" ngModel />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" placeholder="example@email.com" class="form-control"
+                        name="email" id="email" ngModel required email />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="phone" class="form-label">Phone</label>
+                      <input type="tel" placeholder="Format : +216 98766366" class="form-control" name="phone"
+                        id="phone" ngModel tel />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="contactOwner" class="form-label">Contact Owner</label>
+                      <select name="contactOwner" id="contactOwner" class="form-select" ngModel>
+                        <option selected ></option>
+                        <option *ngFor="let contact of contacts" >{{contact.firstName}} {{contact.lastName}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col-md-6">
+                      <label for="job" class="form-label">Job Title</label>
+                      <select name="job" id="job" class="form-select" ngModel>
+                        <option>CEO</option>
+                        <option>Manager</option>
+                        <option>Recruiter</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="company" class="form-label">Company</label>
+                      <input type="text" class="form-control" name="company" id="company" ngModel />
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+
+              <form class="row g-3">
+                <fieldset>
+                  <legend>Address</legend>
+                  <div class="col-12">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" name="address" id="address" ngModel />
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="country" class="form-label">Country</label>
+                      <input type="text" class="form-control" name="country" id="country" ngModel />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="zipCode" class="form-label">Zip Code</label>
+                      <input type="text" class="form-control" name="zipCode" id="zipCode" ngModel />
+                    </div>
+                  </div>
+                  <div class="row mb-1">
+                    <div class="col-md-6">
+                      <label for="city" class="form-label">City</label>
+                      <input type="text" class="form-control" name="city" id="city" ngModel />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="state" class="form-label">State</label>
+                      <input type="text" class="form-control" name="state" id="state" ngModel />
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-md-4 offset-2 p-0 ">
+            <button type="button" disabled class="btn btn-warning">
+              Send Email
+            </button>
+          </div>
+          <div class="col-md-6" style="display: inline-flex;justify-content: end;">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" [disabled]="addcontactForm.invalid" (click)="addNewContact(addcontactForm)"
+              data-bs-dismiss="modal" class="btn btn-warning">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Contact Modal -->
+
+<div class="modal fade" id="EditContactModal" tabindex="-1" aria-labelledby="EditContactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EditContactModalLabel">
+          Edit Contact {{selectedContact?.firstName}} {{selectedContact?.lastName}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body justify-content">
+        <div>
+          <button class="btn btn-outline-secondary me-1 mb-1" type="button">
+            <i class="fa-regular fa-user"></i> Profile
+          </button>
+        </div>
+
+        <div>
+          <button class="btn btn-outline-secondary me-1" type="button">
+            <i class="fa-solid fa-calendar-days"></i> Activities
+          </button>
+        </div>
+        <div class="col-md-10 offset-md-2">
+          <form #editcontactForm="ngForm" class="row g-3">
+            <fieldset class="mb-1">
+              <legend>Main Informations</legend>
+              <div class="row">
+                <input type="hidden" class="form-control" name="id" id="id" ngModel={{selectedContact?.id}} />
+                <input type="hidden" class="form-control" name="address" id="address"
+                  ngModel={{selectedContact?.address}} />
+                <input type="hidden" class="form-control" name="zipCode" id="address"
+                  ngModel={{selectedContact?.zipCode}} />
+                <input type="hidden" class="form-control" name="state" id="state" ngModel={{selectedContact?.state}} />
+                <input type="hidden" class="form-control" name="city" id="city" ngModel={{selectedContact?.city}} />
+                <input type="hidden" class="form-control" name="country" id="country"
+                  ngModel={{selectedContact?.country}} />
+                <div class="col-md-6">
+                  <label for="firstName" class="form-label">First Name<span style="color: red">*</span></label>
+                  <input type="text" required class="form-control" name="firstName" id="firstName"
+                    ngModel={{selectedContact?.firstName}} />
+                </div>
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Last Name<span style="color: red">*</span></label>
+                  <input type="text" required class="form-control" name="lastName" id="lastName"
+                    ngModel={{selectedContact?.lastName}} />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" name="email" id="email" ngModel={{selectedContact?.email}} />
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone</label>
+                  <input type="text" class="form-control" name="phone" id="phone" ngModel={{selectedContact?.phone}} />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="contactOwner" class="form-label">Contact Owner</label>
+                  <select name="contactOwner" id="contactOwner" class="form-select"
+                    ngModel={{selectedContact?.contactOwner}}>
+                    <option selected={{selectedContact?.contactOwner}} *ngFor="let contact of contacts"
+                      id="{{selectedContact?.id}}">
+                      {{contact.firstName}} {{contact.lastName}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-6">
+                  <label for="job" class="form-label">Job Title</label>
+                  <select name="job" id="job" class="form-select" ngModel={{selectedContact?.job}}>
+                    <option selected>CEO</option>
+                    <option>Manager</option>
+                    <option>Recruiter</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="company" class="form-label">Company</label>
+                  <input type="text" class="form-control" name="company" id="company"
+                    ngModel={{selectedContact?.company}} />
+                </div>
+              </div>
+            </fieldset>
+            <!-- <button type="submit" data-bs-dismiss="modal" [disabled]="editcontactForm.invalid" class="btn btn-warning">
+              Save changes
+            </button> -->
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" disabled class="btn btn-warning">
+          Send Email
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" (click)="editContact(selectedContact,editcontactForm)" data-bs-dismiss="modal"
+          [disabled]="editcontactForm.invalid" class="btn btn-warning">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add new Activity Modal -->
+<div class="modal fade" id="addActivityModal" tabindex="-1" aria-labelledby="addActivityModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addActivityModalLabel">ADD ACTIVITY</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="form" #newActivityForm="ngForm" (ngSubmit)="addNewActivity(newActivityForm)" class="row g-3">
+          <fieldset class="fieldset1">
+            <legend>Main Informations</legend>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="date" class="form-label">Date<span style="color: red">*</span></label>
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="date"
+                    #c2="ngModel"
+                    [(ngModel)]="model2"
+                    ngbDatepicker
+                    #date="ngbDatepicker"
+                  />
+                  <button
+                    class="btn btn-outline-secondary far fa-calendar-alt"
+                    (click)="date.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="activityType" class="form-label">
+                  Activity type<span style="color: red">*</span></label>
+                <select name="activityType" required id="activityType" class="form-select" ngModel>
+                  <option>Appel</option>
+                  <option>Dîner</option>
+                  <option>E-mail</option>
+                  <option>Comité de gestion</option>
+                  <option>Réunion</option>
+                  <option>Note</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" ngModel />
+              </div>
+              <div class="col-md-6">
+                <label for="participants" class="form-label">Participants</label>
+                <ng-multiselect-dropdown [data]="dropdownList" [(ngModel)]="selectedItems"
+                  [ngModelOptions]="{standalone: true}" name="participants" id="participants" ngModel
+                  [settings]="dropdownSettings">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="note" class="form-label">Notes</label>
+                <input type="text" class="form-control" name="note" id="note" ngModel />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="documents" class="form-label">documents</label>
+                <input type="file" class="form-control" name="documents" id="documents" placeholder="Drop Files" />
+              </div>
+            </div>
+            <p>max file size : 50Mb</p>
+          </fieldset>
+          <div class="modal-footer">
+            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button data-bs-dismiss="modal" type="submit" class="btn btn-warning">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

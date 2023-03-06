@@ -1,0 +1,27 @@
+.crmButton{
+    padding: 20px;
+    text-align: center;
+    font-size: bold;
+    background-color: orange;
+    float: left;
+    width: 120px;
+    height: 80px;
+}
+
+
+.contactsButton {
+    margin-top: 8px;
+    margin-bottom: 1px;
+    color:white;
+    font-size: bold;
+    background-color: rgb(0, 0, 27);
+    width: 100px;
+    height: 20px;
+}
+
+.activitiesButton{
+    color:white;
+    font-size: bold;
+    background-color: rgb(0, 0, 27);
+    width: 100px;
+}
