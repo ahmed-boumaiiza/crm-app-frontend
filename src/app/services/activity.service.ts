@@ -31,6 +31,4 @@ export class ActivityService {
     return this.http.delete<void>(`${this.apiServerUrl}/activity/delete/${id}`)
   }
 
-  //datepipe: DatePipe = new DatePipe('en-US') 
-
 }

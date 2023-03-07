@@ -111,17 +111,14 @@
                   <div class="row">
                     <div class="col-md-6">
                       <label for="firstName" class="form-label">First Name<span style="color: red">*</span></label>
-                      <input type="text" class="form-control" name="firstName" #firstName="ngModel" minlength="3"
+                      <input type="text" class="form-control" name="firstName" minlength="3"
                         required id="firstName" ngModel />
                     </div>
-                    <span *ngIf="firstName.invalid && firstName.touched" class="error">Required Field !</span>
-
                     <div class="col-md-6">
                       <label for="lastName" class="form-label">Last Name<span style="color: red">*</span></label>
-                      <input type="text" class="form-control" #lastName="ngModel" name="lastName" minlength="3" required id="lastName"
+                      <input type="text" class="form-control"  name="lastName" minlength="3" required id="lastName"
                         ngModel />
                     </div>
-                    <span *ngIf="lastName.invalid && lastName.touched" class="error">Required Field !</span>
                   </div>
                   <div class="row">
                     <div class="col-md-6">
@@ -140,7 +137,7 @@
                       <label for="contactOwner" class="form-label">Contact Owner</label>
                       <select name="contactOwner" id="contactOwner" class="form-select" ngModel>
                         <option selected></option>
-                        <option *ngFor="let contact of contacts">{{contact.firstName}} {{contact.lastName}}</option>
+                        <option *ngFor="let contact of contacts" >{{contact.firstName}} {{contact.lastName}}</option>
                       </select>
                     </div>
                   </div>
@@ -328,7 +325,7 @@
       </div>
       <div class="modal-body">
         <form name="form" #newActivityForm="ngForm" (ngSubmit)="addNewActivity(newActivityForm)" class="row g-3">
-          <fieldset class="fieldset1">
+          <fieldset>
             <legend>Main Informations</legend>
             <div class="row">
               <div class="col-md-6">
@@ -384,7 +381,7 @@
             <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">
               Cancel
             </button>
-            <button data-bs-dismiss="modal" [disabled]="newActivityForm.invalid" type="submit" class="btn btn-warning">
+            <button data-bs-dismiss="modal" [disabled]="newActivityForm.invalid" routerLink="/activities-list" type="submit" class="btn btn-warning">
               Save Activity
             </button>
           </div>

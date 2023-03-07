@@ -215,22 +215,3 @@ table.table .avatar {
     border: none;
 }
 
-fieldset{
-	border:solid;
-	border-radius: 8px;
-	border-color: orange;
-}
-
-.fieldset1 {
-
-		border:solid;
-		border-radius: 8px;
-		border-color: black;
-
-}
-
-pagination-controls{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }

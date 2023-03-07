@@ -8,11 +8,10 @@ export class Contact {
     job: string;
     email: string;
     phone: string;
-    contactOwner: string;
+    contactOwner: Contact;
     address: string;
     city: string;
     country: string;
     state: string;
     zipCode: string;
-    activities : Activity[];
 }

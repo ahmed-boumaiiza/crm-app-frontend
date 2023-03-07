@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from 'src/app/models/activity.model';
 import { Contact } from 'src/app/models/contact.model';
@@ -61,15 +61,14 @@ export class ContactListComponent implements OnInit {
     )
   }
 
-  public addNewContact(addcontactForm: NgForm): void {
+  public addNewContact(addcontactForm: NgForm): void {  
     this.contactService.addNewContact(addcontactForm.value).subscribe(
       (response: Contact) => {
         this.getAllContacts();
         addcontactForm.onReset();
       },
       (error: HttpErrorResponse) => {
-        console.log(error.message);
-        swal("Oops!", "Make sure you entered a valid Email and Phone number!", "error");
+        swal("Oops!", "Email already exists!", "error");
       },
     );
   }
@@ -89,7 +88,6 @@ export class ContactListComponent implements OnInit {
     }    
     const { date } = addActivityForm.value;
     const activity = { ...addActivityForm.value, "participants": participants, "date": this.dateFormatter.format(date) }
-    console.log(activity);
     this.activityService.addNewActivity(activity).subscribe(
       (response: Activity) => {
         this.getAllActivities();

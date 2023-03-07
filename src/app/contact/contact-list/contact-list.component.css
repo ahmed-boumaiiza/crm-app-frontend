@@ -221,25 +221,3 @@ table.table .avatar {
     border: none;
 }
 
-fieldset{
-	border:solid;
-	border-radius: 8px;
-	border-color: black;
-}
-
-input.ng-invalid{
-	border-left: 5px solid red;
-  }
-  
-  input.ng-valid{
-	border-left: 5px solid green;
-  }
-
-  .error{
-	color: red;
-  }
-  pagination-controls{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  }
